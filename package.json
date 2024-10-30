@@ -1,0 +1,19 @@
+{
+	"name": "e-commerce",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"build": "npx tailwindcss -i ./src/main/webapp/css/styles.css -o ./src/main/webapp/css/output.css && mvn clean package",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"description": "",
+	"dependencies": {
+		"autoprefixer": "^10.4.20",
+		"e-commerce": "file:",
+		"postcss": "^8.4.47",
+		"tailwindcss": "^3.4.14"
+	}
+}

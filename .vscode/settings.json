@@ -1,0 +1,15 @@
+{	
+	"editor.formatOnSave": true,
+	"prettier.enable": true,
+	"files.associations": {
+	  "*.jsp": "jsp",
+	  "*.tag": "jsp"
+	},
+	"[jsp]": {
+	  "editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+    
+	"java.configuration.updateBuildConfiguration": "interactive",
+	"java.dependency.packagePresentation": "hierarchical",
+	"cSpell.words": ["formbeans"]
+}
