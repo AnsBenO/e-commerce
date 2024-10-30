@@ -15,11 +15,11 @@
   <% List<Product> products = (List<Product>) session.getAttribute("products"); %>
   <%@ include file="/WEB-INF/fragments/nav.jsp" %>
   
-  <div class=" container max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
+  <div class="container mt-20 max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
     <h1 class="text-2xl font-bold text-center mb-6 text-gray-800">
     <c:choose>
       <c:when test="${param.category != null}">
-                    Products for product: <span class="text-teal-600">${param.product}</span>
+                    Products for category: <span class="text-teal-600">${param.category}</span>
       </c:when>
       <c:otherwise>All Products</c:otherwise>
     </c:choose>
@@ -79,14 +79,14 @@
       <form class="basis-3/12 flex space-x-2" action="products" method="get" onchange="this.submit()">
         <c:set var="categories" value="${sessionScope.categories}" />
         
-       <select name="category" class="w-full text-center">
-  <c:forEach var="category" items="${categories}">
-    <option value="${category}" 
-      <c:if test="${param.category == category}">selected</c:if>>
-      ${category}
-    </option>
-  </c:forEach>
-        </select>
+      <select name="category" class="w-full text-center">
+        <c:forEach var="category" items="${categories}">
+          <option value="${category}" 
+            <c:if test="${param.category == category}">selected</c:if>>
+            ${category}
+          </option>
+        </c:forEach>
+      </select>
 
       </form>
     </div>
@@ -105,23 +105,23 @@
         </tr>
       </thead>
       <tbody>
-        <% for (Product product : products) { %>
+        <c:forEach items="${products}" var="product">
         <tr class="hover:bg-gray-50">
-          <td class="border p-3"><%= product.getId() %></td>
-          <td class="border p-3"><%= product.getName() %></td>
-          <td class="border p-3"><%= product.getPrice() %></td>
-          <td class="border p-3"><%= product.getQuantity() %></td>
-          <td class="border p-3"><%= product.getDescription() %></td>
-          <td class="border p-3"><img src="<%= product.getImage() %>" alt="<%= product.getName() %>" class="w-16 h-16 object-cover" /></td>
+          <td class="border p-3">${product.getId()}</td>
+          <td class="border p-3">${product.getName()}</td>
+          <td class="border p-3">${product.getPrice()}</td>
+          <td class="border p-3">${product.getQuantity()}</td>
+          <td class="border p-3">${product.getDescription()}</td>
+          <td class="border p-3"><img src="${product.getImage()}" alt="${product.getName()}" class="w-16 h-16 object-cover" /></td>
           <td class="border p-3">
             <form action="products" method="post" class="inline">
-              <input name="deleteId" type="hidden" value="<%= product.getId() %>" />
+              <input name="deleteId" type="hidden" value="${product.id}" />
               <button type="submit" 
                       class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition">Delete</button>
             </form>
           </td>
         </tr>
-        <% } %>
+        </c:forEach>
       </tbody>
     </table>
   </div>

@@ -3,7 +3,6 @@ package com.ansbeno.controllers;
 import java.io.IOException;
 import java.util.List;
 
-import com.ansbeno.entities.Category;
 import com.ansbeno.entities.Product;
 import com.ansbeno.services.CategoryService;
 import com.ansbeno.services.ProductService;

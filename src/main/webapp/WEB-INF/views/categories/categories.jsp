@@ -15,7 +15,7 @@
   <%@ include file="/WEB-INF/fragments/nav.jsp" %>
   <% List<Category> categories = (List<Category>) session.getAttribute("categories"); %>
 
-  <div class="container max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
+  <div class="container mt-20 max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
     <h1 class="text-2xl font-bold text-center mb-6 text-gray-800">Category Management</h1>
 
     <!-- Create Category Form -->
@@ -60,22 +60,20 @@
         </tr>
       </thead>
       <tbody>
-        <% for (Category category : categories) { %>
-
+        <c:forEach items="${categories}" var="category">
         <tr class="hover:bg-gray-50">
-          <td class="border p-3"> <a href="products?category=<%= category.getName()%>" > <%= category.getId() %> </a></td>
-          <td class="border p-3"> <a href="products?category=<%= category.getName() %>" > <%= category.getName() %> </a></td>
-          <td class="border p-3"> <a href="products?category=<%= category.getName() %>" > <%= category.getDescription() %> </a></td>
+          <td class="border p-3"> <a href="products?category=${category.getName()}" > ${category.getId()} </a></td>
+          <td class="border p-3"> <a href="products?category=${category.getName()}" > ${category.getName()} </a></td>
+          <td class="border p-3"> <a href="products?category=${category.getName()}" > ${category.getDescription()} </a></td>
           <td class="border p-3">
             <form action="categories" method="post" class="inline">
-              <input name="deleteId" type="hidden" value="<%= category.getId() %>" />
+              <input getName()="deleteId" type="hidden" value="${category.getId()}" />
               <button type="submit" 
                       class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition">Delete</button>
             </form>
           </td>
         </tr>
-
-        <% } %>
+        </c:forEach>
       </tbody>
     </table>
   </div>
