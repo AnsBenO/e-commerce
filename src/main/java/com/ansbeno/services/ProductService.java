@@ -39,13 +39,13 @@ public class ProductService implements IService<Product, Long> {
 
       @Override
       @Transactional
-      public Product save(Product entity) {
-            if (entity.getId() == null) {
-                  em.persist(entity);
+      public Product save(Product product) {
+            if (product.getId() == null) {
+                  em.persist(product);
             } else {
-                  entity = em.merge(entity);
+                  product = em.merge(product);
             }
-            return entity;
+            return product;
       }
 
       @Override
@@ -58,8 +58,8 @@ public class ProductService implements IService<Product, Long> {
 
       @Override
       @Transactional
-      public void delete(Product entity) {
-            em.remove(entity);
+      public void delete(Product product) {
+            em.remove(product);
       }
 
       @Override

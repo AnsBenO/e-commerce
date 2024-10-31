@@ -34,6 +34,5 @@ public class Product implements Serializable {
       @ManyToOne
       @JoinColumn(name = "category_id")
       private Category category;
-
       static final long serialVersionUID = 42L;
 }

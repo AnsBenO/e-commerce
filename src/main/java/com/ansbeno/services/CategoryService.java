@@ -7,6 +7,7 @@ import com.ansbeno.entities.Category;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
@@ -66,4 +67,14 @@ public class CategoryService implements IService<Category, Long> {
             return query.getResultList();
       }
 
+      public Optional<Category> findByName(String name) {
+            TypedQuery<Category> query = em.createQuery("SELECT c FROM Category c WHERE c.name = :name",
+                        Category.class);
+            query.setParameter("name", name);
+            try {
+                  return Optional.of(query.getSingleResult());
+            } catch (NoResultException e) {
+                  return Optional.empty();
+            }
+      }
 }
