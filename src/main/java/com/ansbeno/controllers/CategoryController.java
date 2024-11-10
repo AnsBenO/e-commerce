@@ -3,8 +3,8 @@ package com.ansbeno.controllers;
 import java.io.IOException;
 import java.util.List;
 
+import com.ansbeno.dao.CategoryDao;
 import com.ansbeno.entities.Category;
-import com.ansbeno.services.CategoryService;
 
 import jakarta.inject.Inject;
 import jakarta.servlet.RequestDispatcher;
@@ -18,11 +18,11 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/categories")
 public class CategoryController extends HttpServlet {
 
-      private final transient CategoryService categoryService;
+      private final transient CategoryDao categoryDao;
 
       @Inject
-      public CategoryController(CategoryService categoryService) {
-            this.categoryService = categoryService;
+      public CategoryController(CategoryDao categoryDao) {
+            this.categoryDao = categoryDao;
       }
 
       @Override
@@ -31,8 +31,8 @@ public class CategoryController extends HttpServlet {
             try {
                   String keyword = req.getParameter("keyword");
                   List<Category> categories = keyword == null
-                              ? categoryService.findAll()
-                              : categoryService.findByKeyword(keyword);
+                              ? categoryDao.findAll()
+                              : categoryDao.findByKeyword(keyword);
 
                   HttpSession session = req.getSession();
                   session.setAttribute("categories", categories);
@@ -52,13 +52,13 @@ public class CategoryController extends HttpServlet {
                   String idToDelete = req.getParameter("deleteId");
                   String categoryName = req.getParameter("categoryName");
                   if (idToDelete != null) {
-                        categoryService.deleteById(Long.parseLong(idToDelete));
+                        categoryDao.deleteById(Long.parseLong(idToDelete));
                   } else if (categoryName != null) {
                         Category category = Category.builder()
                                     .name(categoryName)
                                     .description(req.getParameter("description"))
                                     .build();
-                        this.categoryService.save(category);
+                        this.categoryDao.save(category);
                   }
 
                   this.doGet(req, resp);

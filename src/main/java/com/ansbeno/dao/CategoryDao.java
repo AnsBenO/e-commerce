@@ -1,4 +1,4 @@
-package com.ansbeno.services;
+package com.ansbeno.dao;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 
 @ApplicationScoped
-public class CategoryService implements IService<Category, Long> {
+public class CategoryDao implements IDao<Category, Long> {
 
       @PersistenceContext(unitName = "demo")
       private EntityManager em;

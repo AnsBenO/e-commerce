@@ -1,9 +1,9 @@
-package com.ansbeno.services;
+package com.ansbeno.dao;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface IService<T, I> {
+public interface IDao<T, I> {
 
       List<T> findAll();
 

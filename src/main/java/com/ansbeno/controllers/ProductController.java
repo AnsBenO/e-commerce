@@ -8,10 +8,10 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
+import com.ansbeno.dao.CategoryDao;
+import com.ansbeno.dao.ProductDao;
 import com.ansbeno.entities.Category;
 import com.ansbeno.entities.Product;
-import com.ansbeno.services.CategoryService;
-import com.ansbeno.services.ProductService;
 
 import jakarta.inject.Inject;
 import jakarta.servlet.RequestDispatcher;
@@ -33,13 +33,13 @@ import lombok.extern.slf4j.Slf4j;
 )
 public class ProductController extends HttpServlet {
 
-      private final transient ProductService productService;
-      private final transient CategoryService categoryService;
+      private final transient ProductDao productDao;
+      private final transient CategoryDao categoryDao;
 
       @Inject
-      public ProductController(ProductService productService, CategoryService categoryService) {
-            this.productService = productService;
-            this.categoryService = categoryService;
+      public ProductController(ProductDao productDao, CategoryDao categoryDao) {
+            this.productDao = productDao;
+            this.categoryDao = categoryDao;
       }
 
       @Override
@@ -51,14 +51,14 @@ public class ProductController extends HttpServlet {
                   List<Product> products;
 
                   if (category != null && !"".equals(category)) {
-                        products = productService.findByCategory(category);
+                        products = productDao.findByCategory(category);
                   } else if (keyword != null) {
-                        products = productService.findByKeyword(keyword);
+                        products = productDao.findByKeyword(keyword);
                   } else {
-                        products = productService.findAll();
+                        products = productDao.findAll();
                   }
 
-                  List<String> categories = categoryService.getNames();
+                  List<String> categories = categoryDao.getNames();
                   session.setAttribute("categories", categories);
                   session.setAttribute("products", products);
                   RequestDispatcher dispatcher = getServletContext()
@@ -78,10 +78,10 @@ public class ProductController extends HttpServlet {
 
             try {
                   if (idToDelete != null) {
-                        productService.deleteById(Long.parseLong(idToDelete));
+                        productDao.deleteById(Long.parseLong(idToDelete));
 
                   } else if (productName != null) {
-                        Optional<Category> category = categoryService.findByName(req.getParameter("category"));
+                        Optional<Category> category = categoryDao.findByName(req.getParameter("category"));
                         Part imagePart = req.getPart("image");
                         String imageFileName = imagePart != null
                                     ? Paths.get(imagePart.getSubmittedFileName()).getFileName().toString()
@@ -117,7 +117,7 @@ public class ProductController extends HttpServlet {
                                     .category(category.orElse(null))
                                     .build();
                         log.info("Saving new product: {}", product);
-                        this.productService.save(product);
+                        this.productDao.save(product);
                   }
 
                   this.doGet(req, resp);
